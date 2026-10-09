@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+
+# Virtual environment
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets (API keys, tokens)
+.env
+
+# Course materials
+docs/
+
+# Datasets and downloaded embeddings (e.g. GloVe)
+data/
