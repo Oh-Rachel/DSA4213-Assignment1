@@ -6,8 +6,8 @@ demo. Chunks are shuffled each epoch, and every chunk starts from a fresh
 state, so recurrent and Transformer models see exactly the same examples.
 
 Changes from the Lecture 3 training loop:
-    - a validation loss is recorded after every epoch, for loss curves;
-    - Adam is the default optimiser (the demo used plain SGD);
+    - a validation loss is recorded after every epoch, for loss curves
+    - Adam is the default optimiser
     - the weights with the lowest validation loss are restored at the end.
 """
 import copy

@@ -4,10 +4,10 @@ Usage:
     python src/prepare_data.py
 
 Outputs (one paragraph per line):
-    data/raw/<book>.txt               original Project Gutenberg files
-    data/processed/train.txt          first 90% of each book
-    data/processed/valid.txt          next 5% of each book
-    data/processed/test.txt           last 5% of each book
+    data/raw/<book>.txt: original Project Gutenberg files
+    data/processed/train.txt: first 90% of each book
+    data/processed/valid.txt: next 5% of each book
+    data/processed/test.txt: last 5% of each book
 
 Gutenberg header/footer handling follows the DSA4213 Lecture 1-3 demos.
 """

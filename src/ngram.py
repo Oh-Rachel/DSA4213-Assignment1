@@ -1,10 +1,10 @@
 """Interpolated n-gram language model with add-k smoothing (Part I baseline).
 
-Adapted from the DSA4213 Lecture 3 demo (fit_interpolated_ngram and
-ngram_distribution), with these changes:
-    - interpolation weights are fitted on the validation split by EM, which
-      maximises validation log-likelihood (the criterion from Lecture 1,
-      section 7) instead of being fixed by hand;
+Adapted from the DSA4213 Lecture 3 demo (fit_interpolated_ngram and ngram_distribution).
+    
+Additional features:
+    - interpolation weights are fitted on the validation split by
+      maximising validation log-likelihood instead of being fixed by hand
     - target probabilities are computed directly instead of building the full
       vocabulary distribution at every position, which is much faster.
 """

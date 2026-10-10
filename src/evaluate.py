@@ -1,13 +1,8 @@
-"""Shared evaluation helpers for Part I, used by every language model.
+"""Shared evaluation helpers for Part I
 
-Common evaluation setup (identical for all models):
     - every model predicts test tokens 1..N-1 of the test stream, each from the
       preceding test tokens only (no training text as context);
-    - average next-token NLL and perplexity = exp(NLL); <pad> never appears in
-      the stream, and neural training losses also use ignore_index=<pad>;
-    - recurrent models carry state through the whole stream; the Transformer
-      uses a sliding window of max_length tokens (see neural_mean_nll);
-    - the inference workload is scoring the full test stream once;
+    - average next-token NLL and perplexity = exp(NLL)
     - generation: the same prompts, temperature, length, and seed for every model.
 
 Temperature sampling follows the DSA4213 Lecture 1 and Lecture 3 demos.
@@ -27,7 +22,6 @@ RESULTS_DIR = ROOT / "results"
 
 SEED = 4213
 
-# Matched decoding settings for the generated-text comparison.
 PROMPTS = [
     "i was",
     "miss havisham",
@@ -76,7 +70,7 @@ def hardware_summary():
 
 
 def apply_temperature(probabilities, temperature):
-    """q_T(w) proportional to p(w)^(1/T), as in the lecture demos."""
+    """q_T(w) proportional to p(w)^(1/T)"""
     probabilities = np.asarray(probabilities, dtype=np.float64)
     adjusted = probabilities ** (1.0 / temperature)
     return adjusted / adjusted.sum()
@@ -96,52 +90,6 @@ def generate(next_token_probs, prompt_ids, length=GENERATION_LENGTH,
         probabilities = apply_temperature(next_token_probs(ids), temperature)
         ids.append(int(rng.choice(len(probabilities), p=probabilities)))
     return ids
-
-
-def neural_mean_nll(model, ids, stride=None):
-    """Average next-token NLL over target positions 1..N-1 of one token stream.
-
-    Recurrent models read the whole stream in one pass and carry their state
-    forward, as in the Lecture 3 demo. A Transformer can only see max_length
-    tokens, so it slides a window forward by `stride` (default: half the
-    window) and scores each target exactly once, with at least
-    max_length - stride tokens of context after the first window.
-    """
-    model.eval()
-    ids = torch.as_tensor(ids, dtype=torch.long)
-    total = 0.0
-    with torch.no_grad():
-        if model.is_recurrent:
-            logits, _ = model(ids[:-1].unsqueeze(0))
-            total = torch.nn.functional.cross_entropy(
-                logits[0], ids[1:], reduction="sum").item()
-        else:
-            window = model.max_length
-            stride = stride or window // 2
-            scored_until = 0  # targets ids[1..scored_until] are already scored
-            for begin in range(0, len(ids) - 1, stride):
-                end = min(begin + window, len(ids) - 1)
-                logits, _ = model(ids[begin:end].unsqueeze(0))
-                targets = ids[begin + 1 : end + 1]
-                new = scored_until - begin  # skip targets scored by the previous window
-                total += torch.nn.functional.cross_entropy(
-                    logits[0, new:], targets[new:], reduction="sum").item()
-                scored_until = end
-                if end == len(ids) - 1:
-                    break
-    return total / (len(ids) - 1)
-
-
-def neural_next_token_probs(model):
-    """Return a next_token_probs(history_ids) function for generate()."""
-    def next_token_probs(history_ids):
-        model.eval()
-        if not model.is_recurrent:
-            history_ids = history_ids[-model.max_length:]
-        with torch.no_grad():
-            logits, _ = model(torch.tensor([history_ids], dtype=torch.long))
-            return torch.softmax(logits[0, -1].double(), dim=-1).numpy()
-    return next_token_probs
 
 
 def save_results(name, results):

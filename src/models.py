@@ -1,18 +1,23 @@
-"""Neural language models: RNN, LSTM, and Transformer.
+"""Neural language models for Part I (and reused in Parts II and III).
 
-Both models are used the same way:
-    logits, state = model(input_ids)
-    - input_ids: token ids, shape [batch, length]
-    - logits:    a score for every vocabulary word at every position
-    - state:     the RNN/LSTM memory (None for the Transformer)
+Both classes share one interface:
+    logits, state = model(input_ids, state=None)
+        input_ids: LongTensor [batch, length]
+        logits: FloatTensor [batch, length, vocab_size]
+        state: recurrent state (RecurrentLM) or None (TransformerLM)
+    model.embedding: the input-embedding table (swapped in Part II)
+    model.is_recurrent: True for RNN/LSTM
+    model.hidden_states(...): per-token representations (used in Part III)
 
-RecurrentLM (RNN or LSTM) is adapted from the DSA4213 Lecture 3 demo.
-TransformerLM is new; its causal mask stops each position seeing later tokens.
+RecurrentLM is adapted from WordRecurrentLanguageModel in the DSA4213
+Lecture 3 demo (adding a padding index, dropout, and multiple layers).
+TransformerLM: decoder-only Transformer that uses causal
+self-attention, so each position attends only to itself and earlier tokens.
 """
 import torch
 from torch import nn
 
-EMBEDDING_DIM = 100  # matches GloVe 100d so Part I models can be reused in Part II
+EMBEDDING_DIM = 100 
 
 
 class RecurrentLM(nn.Module):
