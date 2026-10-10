@@ -9,6 +9,8 @@ Adapted from the DSA4213 Lecture 1 and Lecture 3 demos:
     - tokenizer regex from Lecture 1 (lowercase words + . , ! ? ; :)
     - training-only vocabulary with <unk> from Lecture 3
 Changes:
+    - possessives and contractions are split as in GloVe's tokenizer
+      (father's -> father 's, don't -> do n't) so they have GloVe vectors
     - vocabulary keeps tokens seen at least MIN_COUNT times
     - <eos> marks each paragraph end
     - <pad> is reserved for batching so it can be excluded from the loss
@@ -27,7 +29,15 @@ SPECIAL_TOKENS = [PAD, UNK, EOS]  # ids 0, 1, 2
 
 MIN_COUNT = 3
 
-TOKEN_PATTERN = re.compile(r"[a-z]+(?:'[a-z]+)?|[.,!?;:]")
+CLITIC = r"'(?:s|m|re|ve|ll|d)\b"
+TOKEN_PATTERN = re.compile(
+    r"[a-z]+(?=n't\b)"            # stem before n't: don't -> do
+    r"|n't\b"
+    rf"|[a-z]+(?={CLITIC})"       # stem before a clitic: father's -> father
+    rf"|{CLITIC}"
+    r"|[a-z]+(?:'[a-z]+)?"        # other words, including o'clock
+    r"|[.,!?;:]"
+)
 PUNCTUATION = {".", ",", "!", "?", ";", ":"}
 
 
@@ -38,10 +48,10 @@ def tokenize(text):
 
 
 def detokenize(tokens):
-    """Join tokens into readable text, attaching punctuation to the previous word."""
+    """Join tokens into readable text, attaching punctuation and clitics to the previous word."""
     text = ""
     for token in tokens:
-        if token in PUNCTUATION:
+        if token in PUNCTUATION or token.startswith("'") or token == "n't":
             text = text.rstrip() + token + " "
         elif token == EOS:
             text = text.rstrip() + "\n"
