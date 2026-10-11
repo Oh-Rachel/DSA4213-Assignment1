@@ -1,0 +1,96 @@
+{
+  "model": "interpolated n-gram (1- to 5-gram, add-k + EM weights)",
+  "max_history": 4,
+  "add_k": 0.0001,
+  "weights": [
+    0.222404913575937,
+    0.5711392531298425,
+    0.16056255237987035,
+    0.03348672027545325,
+    0.012406560638898393
+  ],
+  "add_k_grid": {
+    "k_values": [
+      1e-05,
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0
+    ],
+    "valid_perplexity": [
+      101.64781010795859,
+      101.53247389855525,
+      103.41086360033076,
+      114.62915889983994,
+      146.45593577972255,
+      218.28643270729626
+    ],
+    "weights": [
+      [
+        0.2302387371420168,
+        0.5668264453330355,
+        0.15166211557823903,
+        0.03375043578669417,
+        0.017522266160012904
+      ],
+      [
+        0.222404913575937,
+        0.5711392531298425,
+        0.16056255237987035,
+        0.03348672027545325,
+        0.012406560638898393
+      ],
+      [
+        0.2056095924201657,
+        0.6077936335959937,
+        0.1677505405264869,
+        0.018272566984190622,
+        0.000573666473162331
+      ],
+      [
+        0.19680485556455368,
+        0.7136235658796756,
+        0.08957157742064495,
+        1.1351004875927785e-09,
+        2.7165256047258257e-14
+      ],
+      [
+        0.2781342480869056,
+        0.7218657519129501,
+        1.3656599625337814e-13,
+        2.197047235164058e-29,
+        9.651396074009811e-34
+      ],
+      [
+        0.5575359168060326,
+        0.44246408319396835,
+        3.854265096295274e-34,
+        1.573336429063642e-46,
+        1.958326255562842e-48
+      ]
+    ]
+  },
+  "valid_nll": 4.620378687199234,
+  "valid_perplexity": 101.53247389855525,
+  "test_nll": 4.544014608044492,
+  "test_perplexity": 94.06768798165608,
+  "fit_seconds": 2.0152326999232173,
+  "test_seconds": 0.07550700008869171,
+  "test_tokens_per_second": 130954.74576377554,
+  "stored_count_entries": 561440,
+  "samples": {
+    "i was": "i was born had found them, and france. now!\nthe time., thinking how long regularly and that the grass, i had not have there",
+    "miss havisham": "miss havisham,, said the time. she was <unk> and stiff, and see nothing., and a <unk> and to say a word pip, and notice",
+    "joe said": "joe said, and the <unk> as he, i felt that you mentioned to the a walk about it rather <unk>, in a so ideas, and that they are",
+    "it was a": "it was a <unk> and you at me, and then we are you about so, making the floor over one of the house, when you to my sister was a"
+  },
+  "hardware": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+    "python": "3.13.9",
+    "torch": "2.14.1+cpu",
+    "torch_threads": 16,
+    "device": "cpu"
+  }
+}

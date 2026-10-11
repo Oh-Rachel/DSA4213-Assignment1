@@ -66,8 +66,11 @@ def run_neural_model(name, model, splits, vocab, training, config=None, descript
     return results
 
 
-def plot_history(history, title, filename=None):
-    """Train and validation loss per epoch, with the best-validation epoch marked."""
+def plot_history(history, title, filename=None, label_offset=(-150, 30)):
+    """Train and validation loss per epoch, with the best-validation epoch marked.
+
+    label_offset: (x, y) shift of the best-epoch label from its point, in points.
+    """
     epochs = range(1, len(history["train_loss"]) + 1)
     best = history["best_epoch"]
     best_valid = history["valid_loss"][best - 1]
@@ -79,10 +82,10 @@ def plot_history(history, title, filename=None):
             linewidth=2, label="validation")
     ax.axvline(best, color="grey", linestyle="--", linewidth=1)
     ax.annotate(f"best epoch {best}\nvalid loss {best_valid:.3f} (ppl {perplexity(best_valid):.1f})",
-                (best, best_valid), textcoords="offset points", xytext=(-150, 30), fontsize=9)
+                (best, best_valid), textcoords="offset points", xytext=label_offset, fontsize=9)
 
     ax.set_xlabel("Epoch")
-    ax.set_ylabel("Mean next-token cross-entropy (nats)")
+    ax.set_ylabel("Mean next-token cross-entropy")
     ax.set_title(title)
     ax.legend(frameon=False)
     ax.grid(alpha=0.3)
