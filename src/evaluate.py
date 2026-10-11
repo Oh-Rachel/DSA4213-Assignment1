@@ -3,9 +3,9 @@
     - every model predicts test tokens 1..N-1 of the test stream, each from the
       preceding test tokens only (no training text as context);
     - average next-token NLL and perplexity = exp(NLL)
-    - generation: the same prompts, temperature, length, and seed for every model.
+    - generation: the same prompts, temperature, length, and per-prompt seeds
+      (SEED + prompt index) for every model.
 
-Temperature sampling follows the DSA4213 Lecture 1 and Lecture 3 demos.
 """
 import json
 import math
@@ -16,6 +16,8 @@ from pathlib import Path
 
 import numpy as np
 import torch
+
+from src.data import detokenize, tokenize
 
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS_DIR = ROOT / "results"
@@ -48,7 +50,7 @@ def count_parameters(model):
 
 
 class Timer:
-    """Wall-clock timer: `with Timer() as t: ...` then read t.seconds."""
+    """Timer manager for measuring elapsed time in seconds."""
 
     def __enter__(self):
         self._start = time.perf_counter()
@@ -92,6 +94,19 @@ def generate(next_token_probs, prompt_ids, length=GENERATION_LENGTH,
     return ids
 
 
+def generate_samples(next_token_probs, vocab, prompts=PROMPTS, seed=SEED):
+    """Generate one continuation per prompt and return {prompt: text}.
+
+    Prompt i uses seed + i. The seeds are the same across every model.
+    """
+    samples = {}
+    for index, prompt in enumerate(prompts):
+        prompt_ids = vocab.encode(tokenize(prompt))
+        output_ids = generate(next_token_probs, prompt_ids, seed=seed + index)
+        samples[prompt] = detokenize(vocab.decode(output_ids))
+    return samples
+
+
 def neural_mean_nll(model, ids, stride=None):
     """Average next-token NLL over target positions 1..N-1 of one token stream.
 
@@ -110,7 +125,7 @@ def neural_mean_nll(model, ids, stride=None):
         else:
             window = model.max_length
             stride = stride or window // 2
-            scored_until = 0  # targets ids[1..scored_until] are already scored
+            scored_until = 0 
             for begin in range(0, len(ids) - 1, stride):
                 end = min(begin + window, len(ids) - 1)
                 logits, _ = model(ids[begin:end].unsqueeze(0))
