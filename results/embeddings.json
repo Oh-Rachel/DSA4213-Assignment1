@@ -1,0 +1,73 @@
+{
+  "word2vec": {
+    "settings": {
+      "vector_size": 100,
+      "window": 5,
+      "min_count": 1,
+      "sg": 1,
+      "negative": 5,
+      "ns_exponent": 0.75,
+      "sample": 0.0,
+      "shrink_windows": false,
+      "epochs": 15,
+      "workers": 1,
+      "seed": 4213
+    },
+    "train_seconds": 13.411199799971655,
+    "train_tokens": 199118,
+    "coverage": {
+      "vocabulary_size": 4102,
+      "found": 4102,
+      "missing": 0,
+      "type_coverage": 1.0,
+      "missing_examples": [],
+      "missing_init": "normal(0, 0.2362) with seed 4213; <pad> = zeros",
+      "mean_vector_norm": 2.304567813873291,
+      "train_token_coverage": 1.0
+    }
+  },
+  "glove": {
+    "name": "glove-wiki-gigaword-100",
+    "load_seconds": 233.50654920004308,
+    "glove_vocabulary_size": 400000,
+    "coverage": {
+      "vocabulary_size": 4102,
+      "found": 4046,
+      "missing": 56,
+      "type_coverage": 0.9863481228668942,
+      "missing_examples": [
+        "<unk>",
+        "<eos>",
+        "wemmick",
+        "pumblechook",
+        "wopsle",
+        "drummle",
+        "orlick",
+        "compeyson",
+        "trabb",
+        "gargery",
+        "skiffins",
+        "startop",
+        "bargemen",
+        "flopson",
+        "meantersay",
+        "halloa",
+        "look'ee",
+        "waldengarver",
+        "jaggerth",
+        "oncommon"
+      ],
+      "missing_init": "normal(0, 0.5183) with seed 4213; <pad> = zeros",
+      "mean_vector_norm": 5.139956951141357,
+      "train_token_coverage": 0.9379513655219518
+    }
+  },
+  "hardware": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+    "python": "3.13.9",
+    "torch": "2.14.1+cpu",
+    "torch_threads": 16,
+    "device": "cpu"
+  }
+}
