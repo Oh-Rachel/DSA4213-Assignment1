@@ -91,6 +91,7 @@ def plot_history(history, title, filename=None, label_offset=(-150, 30)):
     ax.grid(alpha=0.3)
     fig.tight_layout()
     if filename:
-        RESULTS_DIR.mkdir(exist_ok=True)
-        fig.savefig(RESULTS_DIR / filename, dpi=200, bbox_inches="tight")
+        path = RESULTS_DIR / filename
+        path.parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(path, dpi=200, bbox_inches="tight")
     return fig

@@ -152,8 +152,8 @@ def neural_next_token_probs(model):
 
 
 def save_results(name, results):
-    """Write one model's metrics to results/<name>.json."""
-    RESULTS_DIR.mkdir(exist_ok=True)
+    """Write one model's metrics to results/<name>.json (name may include a subfolder, e.g. "part1/rnn")."""
     path = RESULTS_DIR / f"{name}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(results, indent=2), encoding="utf-8")
     return path
