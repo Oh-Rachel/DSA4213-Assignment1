@@ -7,11 +7,11 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Secrets (API keys, tokens)
+# Secrets
 .env
 
-# Course materials
+# Course reference materials
 docs/
 
-# Datasets and downloaded embeddings (e.g. GloVe)
+# Datasets and downloaded embeddings
 data/
