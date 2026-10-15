@@ -75,9 +75,9 @@
   "valid_perplexity": 101.53247389855525,
   "test_nll": 4.544014608044492,
   "test_perplexity": 94.06768798165608,
-  "fit_seconds": 2.0152326999232173,
-  "test_seconds": 0.07550700008869171,
-  "test_tokens_per_second": 130954.74576377554,
+  "fit_seconds": 2.360766700003296,
+  "test_seconds": 0.0988211000803858,
+  "test_tokens_per_second": 100059.60257431488,
   "stored_count_entries": 561440,
   "samples": {
     "i was": "i was born had found them, and france. now!\nthe time., thinking how long regularly and that the grass, i had not have there",

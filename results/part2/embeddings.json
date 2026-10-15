@@ -13,7 +13,7 @@
       "workers": 1,
       "seed": 4213
     },
-    "train_seconds": 13.411199799971655,
+    "train_seconds": 29.96746339998208,
     "train_tokens": 199118,
     "coverage": {
       "vocabulary_size": 4102,
@@ -28,7 +28,7 @@
   },
   "glove": {
     "name": "glove-wiki-gigaword-100",
-    "load_seconds": 233.50654920004308,
+    "load_seconds": 110.77433669986203,
     "glove_vocabulary_size": 400000,
     "coverage": {
       "vocabulary_size": 4102,
