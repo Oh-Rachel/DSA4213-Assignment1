@@ -11034,9 +11034,9 @@
     "selection": "best validation accuracy"
   },
   "feature_extraction_seconds": {
-    "lstm_word2vec": 21.79019740014337,
-    "lstm_glove": 19.491504800040275,
-    "lstm_untrained": 28.682946299901232
+    "lstm_word2vec": 22.602311900118366,
+    "lstm_glove": 22.128321700030938,
+    "lstm_untrained": 22.366694499971345
   },
   "results": {
     "w2v_mean": {
